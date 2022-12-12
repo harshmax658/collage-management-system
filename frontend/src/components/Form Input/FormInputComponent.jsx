@@ -1,22 +1,26 @@
 import React from "react";
-import { FormInputGroup, FormInput, FormLabel } from "./FormInputStyle";
+import {
+  FormInputGroup,
+  FormInput,
+  FormLabel,
+  GlobalCss,
+} from "./FormInputStyle";
 
 const FormInputComponent = ({ onchange, htmlFor, label, ...otherprops }) => {
   return (
-    <FormInputGroup>
-      <FormInput onchange={onchange} {...otherprops} />
+    <div className="formInput_group">
+      <GlobalCss />
+      <input className="form_input" onChange={onchange} {...otherprops} />
       {label ? (
-        <FormLabel
-          onFocus={() => {
-            console.log("hh");
-          }}
-          htmlFor={htmlFor}
-          shrink={otherprops.value ? true : false}
+        <label
+          className={`${
+            otherprops?.value?.length ? "shrink" : ""
+          } form_input_label`}
         >
           {label}
-        </FormLabel>
+        </label>
       ) : null}
-    </FormInputGroup>
+    </div>
   );
 };
 

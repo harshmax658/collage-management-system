@@ -1,37 +1,52 @@
 import styled, { css } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
-const shrink = css`
-  top: 6px;
-  font-size: 13px;
-`;
-
-export const FormInputGroup = styled.div`
+export const GlobalCss = createGlobalStyle`
+.formInput_group {
   position: relative;
-  width: 100%;
-`;
+  margin: 45px 0;
 
-export const FormInput = styled.input`
-  /* width: 100%; */
-  padding: 0 11px;
-  height: 40px;
-  /* padding-bottom: 10px; */
-  background: none;
-  outline: none;
-  border: 1px solid lightgray;
-  width: 75%;
-  ${({ value }) => value && "padding: 14px 28px 2px 8px"};
-`;
+  .form_input {
+    background: none;
+    background-color: #ffff;
+    color: $sub-color;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid grey !important;
+    margin: 25px 0;
+    outline: none;
 
-export const FormLabel = styled.label`
-  position: absolute;
-  left: 41px;
-  cursor: text;
-  color: gray;
-  font-size: 14px;
-  top: 18px;
-  -webkit-transition: all 100ms ease-out;
-  transition: all 100ms ease-out;
-  text-align: start;
-  ${(props) => (props.shrink ? shrink : "")}
+    &:focus ~ .form_input_label {
+      top: -20px;
+      left: 0px;
+      font-size: 14px;
+      color: black;
+    }
+  }
+  input[type="password"] {
+    letter-spacing: 0.3rem;
+  }
+  .form_input_label {
+    color: grey;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 7px;
+    transition: 300ms ease all;
+
+    &.shrink {
+      top: -20px;
+      left: 0px;
+      font-size: 14px;
+      color: black;
+      
+    }
+  }
+}
+
 `;
-//Harsh
