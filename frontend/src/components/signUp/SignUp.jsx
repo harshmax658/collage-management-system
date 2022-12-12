@@ -5,29 +5,72 @@ import CustomButton from "../custom-button/CustomButton";
 import UseLoginAndSignin from "../../Custom Hooks/useLoginSignup";
 
 import { SignUpStyle, GlobalCss } from "./SignupStyle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { studentRegistrationStart } from "../../redux/admin/action";
+import { BorderTopOutlined } from "@ant-design/icons";
+import { message } from "antd";
+import NotificationBox from "../notificationBox/NotificationBox";
+import { useEffect } from "react";
 
 const SignUp = () => {
+  // const [api, contextHolder] = notification.useNotification();
+
+  // const { status, loading } = useSelector(({ adminReducer }) => adminReducer);
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable";
+  const openMessage = (msg, status) => {
+    messageApi.open({
+      key,
+      type: "loading",
+      content: "Loading...",
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: status,
+        content: msg,
+        duration: 2,
+      });
+    }, 1000);
+  };
+
   const dispatch = useDispatch();
 
   const [studentData, studentDataHandler] = UseLoginAndSignin({
-    name: "",
-    email: "",
-    motherName: "",
-    fatherName: "",
+    name: "a",
+    email: "kkk@gmail.com",
+    motherName: "v",
+    fatherName: "s",
   });
 
   const { name, fatherName, email, motherName } = studentData;
 
-  const Signup = async () => {};
+  const notificationHandler = (message, status) => {
+    if (status === 200) {
+      openMessage(message, "success");
+      // openNotification("top");
+      // api.info({
+      //   message: ` ${message}`,
+      //   placement: "top",
+      // });
+    } else {
+      openMessage(message, "error");
+      // openNotification("top");
+      // api.info({
+      //   message: ` ${message}`,
+      //   placement: "top",
+      // });
+    }
+  };
   const submitHandler = (event) => {
     event.preventDefault();
-    dispatch(studentRegistrationStart(studentData));
+    dispatch(studentRegistrationStart({ studentData, notificationHandler }));
   };
-
+  // useEffect(() => {}, [status, submitHandler]);
   return (
     <SignUpStyle>
+      {contextHolder}
       <GlobalCss />
       <h2 className="title">Create new student</h2>
 
@@ -66,6 +109,7 @@ const SignUp = () => {
         />
 
         <CustomButton type="submit">Submit</CustomButton>
+        <NotificationBox />
       </form>
     </SignUpStyle>
   );

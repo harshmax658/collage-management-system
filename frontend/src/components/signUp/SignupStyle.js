@@ -9,6 +9,9 @@ export const GlobalCss = createGlobalStyle`.sign_up {
   .title {
     margin: 10px 0;
   }
+  .ant-notification-notice {
+    background-color: red !important;
+  }
 }
 `;
 

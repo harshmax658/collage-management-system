@@ -8,3 +8,15 @@ export const studentRegistrationStart = (data) => {
     data,
   };
 };
+export const studentRegistrationSuccess = (data) => {
+  return {
+    type: STUDENT_REGISTRATION_SUCCESS,
+    data,
+  };
+};
+export const studentRegistrationFailure = (data) => {
+  return {
+    type: STUDENT_REGISTRATION_FAILURE,
+    data,
+  };
+};
