@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  FormInputGroup,
-  FormInput,
-  FormLabel,
-  GlobalCss,
-} from "./FormInputStyle";
+import { GlobalCss } from "./FormInputStyle";
 
 const FormInputComponent = ({ onchange, htmlFor, label, ...otherprops }) => {
   return (

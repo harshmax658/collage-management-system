@@ -2,6 +2,7 @@ const Student = require("../Models/Student");
 
 const createNewStudent = async (request, response) => {
   try {
+    console.log(request.body);
     const student = await Student.findOne({ email: request.body.email });
     if (student) {
       return response.status(422).json({
@@ -15,6 +16,7 @@ const createNewStudent = async (request, response) => {
       message: "New student registerd",
     });
   } catch (error) {
+    console.log(error);
     return response.status(500).json({
       message: "Internal server error !! ",
     });

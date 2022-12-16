@@ -9,22 +9,44 @@ export const GlobalCss = createGlobalStyle`.sign_up {
   .title {
     margin: 10px 0;
   }
-  .ant-notification-notice {
+  
+  /* .ant-notification-notice {
     background-color: red !important;
-  }
+  } */
 }
 `;
 
 export const SignUpStyle = styled.div`
   display: flex;
   flex-direction: column;
-  width: 380px;
+  width: 100%;
 
   .title {
     margin: 10px 0;
   }
-  @media screen and (max-width: 800px) {
-    width: 100%;
-    text-align: center;
+
+  .formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    label {
+      top: 35px;
+    }
+
+    .ant-picker {
+      border: none !important;
+      border-bottom: 1px solid grey !important;
+      border-radius: inherit !important;
+      outline: none !important;
+    }
+  }
+
+  .ant-space-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .ant-space {
+    justify-content: center !important;
   }
 `;

@@ -17,6 +17,38 @@ const studentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  hightSchool: {
+    type: String,
+    required: true,
+  },
+  interMidiate: {
+    type: String,
+    required: true,
+  },
+  mobile: {
+    type: String,
+    required: true,
+  },
+  ug: {
+    type: String,
+    // required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  month: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: String,
+    required: true,
+  },
 });
 const student = mongoose.model("Student", studentSchema);
 

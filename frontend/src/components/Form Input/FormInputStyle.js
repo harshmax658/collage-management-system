@@ -4,12 +4,11 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalCss = createGlobalStyle`
 .formInput_group {
   position: relative;
-  margin: 45px 0;
 
   .form_input {
     background: none;
     background-color: #ffff;
-    color: $sub-color;
+    color: grey;
     padding: 10px 10px 10px 5px;
     display: block;
     width: 100%;
@@ -20,7 +19,7 @@ export const GlobalCss = createGlobalStyle`
     outline: none;
 
     &:focus ~ .form_input_label {
-      top: -20px;
+      top: -5px;
       left: 0px;
       font-size: 14px;
       color: black;
@@ -40,7 +39,7 @@ export const GlobalCss = createGlobalStyle`
     transition: 300ms ease all;
 
     &.shrink {
-      top: -20px;
+      top: -5px;
       left: 0px;
       font-size: 14px;
       color: black;

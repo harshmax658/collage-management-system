@@ -8,8 +8,11 @@ const useLoginSignup = (value) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
+  const resetValues = () => {
+    setFormData(value);
+  };
 
-  return [formData, formDataHandler];
+  return [formData, formDataHandler, resetValues];
 };
 
 export default useLoginSignup;

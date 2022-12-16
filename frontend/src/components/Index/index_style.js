@@ -11,6 +11,24 @@ export const GlobalCss = createGlobalStyle`
   color: rgb(147 200 255 / 88%) !important;
   font-size: 1.2rem !important;
 }
+.form_input_label{
+  top: 20px !important;
+}
+.form_input{
+  margin: 16px 0  !important;
+  overflow: hidden !important;
+
+  &:focus ~ .form_input_label {
+      top: -13px !important;
+      left: 0px;
+      font-size: 16px !important;
+      color: red !important;
+    }
+}
+
+.shrink{
+  color: red !important;
+}
 `;
 
 export const Main = styled.main`

@@ -7,12 +7,12 @@ import {
 } from "./action";
 
 function* studentRegistrationStart({
-  data: { notificationHandler, studentData },
+  data: { notificationHandler, studentDataNew },
 }) {
   const response = yield fetch("/api/admin/register-new-student", {
     method: "Post",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(studentData),
+    body: JSON.stringify(studentDataNew),
   });
 
   const responseJson = yield response.json();
@@ -20,6 +20,9 @@ function* studentRegistrationStart({
     message: responseJson.message,
     status: response.status,
   };
+  console.log(data);
+  console.log(data.status);
+  console.log(response.status);
   if (response.status === 200) {
     yield put(studentRegistrationSuccess(data));
   } else {
