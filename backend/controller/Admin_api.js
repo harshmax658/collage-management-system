@@ -9,7 +9,11 @@ const createNewStudent = async (request, response) => {
         message: "student already exist",
       });
     }
-    const newStudent = new Student({ ...request.body });
+    const newStudent = new Student({
+      ...request.body,
+      password: `CMS@${request.body.year}`,
+    });
+    console.log(newStudent);
     await newStudent.save();
 
     return response.status(200).json({

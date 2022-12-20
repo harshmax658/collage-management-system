@@ -6,9 +6,11 @@ import CustomMenu from "./Menu";
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const { Header, Sider, Content } = Layout;
 
-const Controller = ({ setLogin }) => {
+const Controller = () => {
+  const { name } = useSelector(({ loginReducer }) => loginReducer);
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
 
@@ -36,8 +38,8 @@ const Controller = ({ setLogin }) => {
             }
           )}
           {/* User Name */}
-          Harsh Kumar
-          <button onClick={() => setLogin(false)}>LogOut</button>
+          {name}
+          <button onClick={() => {}}>LogOut</button>
         </Header>
         <Content
           className="site-layout-background"

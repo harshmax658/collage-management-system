@@ -8,22 +8,34 @@ import useLoginSignup from "../../Custom Hooks/useLoginSignup";
 import CustomButton from "../custom-button/CustomButton";
 
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/login/action";
+import { studentLoginStart } from "../../redux/login/action";
 
-const Form = ({ setLogin }) => {
+const Form = () => {
   const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
+
   const [hideBtn, setHideBtn] = useState(false);
+
   const [formData, formDataHandler] = useLoginSignup({
-    email: "",
-    password: "",
+    emailOrMobile: "9911299826",
+    password: "CMS@2022",
   });
+
   const showDrawer = () => {
     setOpen(true);
     setHideBtn(true);
   };
+
   const onClose = () => {
     setOpen(false);
+  };
+  const loginHandler = () => {
+    console.log("call");
+    console.log(formData);
+    if (formData.emailOrMobile && formData.password) {
+      dispatch(studentLoginStart(formData));
+    }
   };
   return (
     <FormContainer>
@@ -53,12 +65,13 @@ const Form = ({ setLogin }) => {
           {/* <p onClick={() => setOpen(falsx`e)}>Some contents...</p> */}
           <FormTag>
             <FormInputComponent
-              label="email"
-              name="email"
+              label="email / mobile"
+              name="emailOrMobile"
               type="text"
-              id="email"
-              htmlFor={"email"}
-              value={formData.email}
+              id="emailOrMobile"
+              required
+              htmlFor={"emailOrMobile"}
+              value={formData.emailOrMobile}
               onChange={formDataHandler}
             />
             <FormInputComponent
@@ -66,6 +79,7 @@ const Form = ({ setLogin }) => {
               name="password"
               type="password"
               id="password"
+              required
               htmlFor={"password"}
               value={formData.password}
               onChange={formDataHandler}
@@ -81,13 +95,7 @@ const Form = ({ setLogin }) => {
               >
                 Cancel
               </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  setLogin(true);
-                  if (formData.email) dispatch(login(formData.email));
-                }}
-              >
+              <Button type="primary" onClick={loginHandler}>
                 Login
               </Button>
             </div>

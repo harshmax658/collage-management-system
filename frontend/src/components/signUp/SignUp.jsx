@@ -2,16 +2,16 @@ import React from "react";
 import FormInput from "../Form Input/FormInputComponent";
 import CustomButton from "../custom-button/CustomButton";
 
-import UseLoginSignin from "../../Custom Hooks/useLoginSignup";
+import { DownOutlined } from "@ant-design/icons";
 
 import { SignUpStyle, GlobalCss } from "./SignupStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { studentRegistrationStart } from "../../redux/admin/action";
 
-import { message, DatePicker, Space } from "antd";
-import NotificationBox from "../notificationBox/NotificationBox";
+import { message, DatePicker, Space, Select } from "antd";
+
 import { useState } from "react";
-import { useEffect } from "react";
+import CourseModal from "../admin/Course/CourseModal";
 
 const SignUp = ({
   course,
@@ -20,8 +20,15 @@ const SignUp = ({
   studentDob,
   setStudentDob,
   resetValues,
+  newCourse,
+  addFaculty,
+  items,
+  handleChange,
+  onClose,
+  openDrawer,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
+
   const key = "updatable";
   const openMessage = (msg, status) => {
     messageApi.open({
@@ -51,7 +58,7 @@ const SignUp = ({
     interMidiate,
     mobile,
     ug,
-  } = studentData;
+  } = studentData || [];
 
   const onChange = (date) => {
     if (date.$d.getFullYear()) {
@@ -72,7 +79,11 @@ const SignUp = ({
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    const studentDataNew = { ...studentData, ...studentDob };
+    const studentDataNew = {
+      ...studentData,
+      ...studentDob,
+      course: course,
+    };
     if (course === "MCA") {
       delete studentDataNew.ug;
     }
@@ -85,82 +96,190 @@ const SignUp = ({
     <SignUpStyle>
       {contextHolder}
       <GlobalCss />
-      <h2 className="title">Create new student</h2>
+      <h2 className="title">{`Add new ${
+        newCourse ? "course" : addFaculty ? "faculty" : "student"
+      }`}</h2>
 
-      <form className="sign_up_form" onSubmit={submitHandler}>
-        <div className="formContainer">
-          <FormInput
-            value={name}
-            type="text"
-            label="Name"
-            name="name"
-            onChange={studentDataHandler}
-            required
-          />
-          <FormInput
-            value={fatherName}
-            type="text"
-            label="Father Name"
-            name="fatherName"
-            onChange={studentDataHandler}
-            required
-          />
-          <FormInput
-            value={motherName}
-            type="text"
-            label="Mother Name"
-            name="motherName"
-            onChange={studentDataHandler}
-            required
-          />
-          <FormInput
-            type="email"
-            name="email"
-            label="Email"
-            value={email}
-            onChange={studentDataHandler}
-            required
-          />
-          <Space direction="vertical">
-            <DatePicker placeholder="DOB" onChange={onChange} />
-          </Space>
-          <FormInput
-            type="text"
-            name="hightSchool"
-            label="10th Percentage"
-            value={hightSchool}
-            onChange={studentDataHandler}
-            required
-          />
-          <FormInput
-            type="text"
-            name="interMidiate"
-            label="12th Percentage"
-            value={interMidiate}
-            onChange={studentDataHandler}
-            required
-          />
-          {course === "MCA" && (
+      {newCourse ? (
+        <div className="newCourse">
+          <form className="sign_up_form" onSubmit={submitHandler}>
+            <div className="formContainer">
+              <FormInput
+                value={name}
+                type="text"
+                label="Course name"
+                name="courseName"
+                // onChange={courseName}
+                required
+              />
+              <>
+                <Select
+                  defaultValue="1"
+                  style={{
+                    width: 120,
+                  }}
+                  onChange={handleChange}
+                  options={items}
+                />
+              </>
+            </div>
+            <CustomButton type="submit">Submit</CustomButton>
+          </form>
+          <div className="dropDown">
+            <CourseModal openDrawer={openDrawer} onClose={onClose} />
+          </div>
+        </div>
+      ) : addFaculty ? (
+        <form className="sign_up_form" onSubmit={submitHandler}>
+          <div className="formContainer">
             <FormInput
+              value={name}
               type="text"
-              name="ug"
-              label="Graduation Percentage"
-              value={ug}
+              label="Name"
+              name="name"
               onChange={studentDataHandler}
               required
             />
-          )}
-          <FormInput
-            type="text"
-            name="mobile"
-            label="Mobile"
-            value={mobile}
-            onChange={studentDataHandler}
-            required
-          />
-        </div>
-        <CustomButton type="submit">Submit</CustomButton>
-      </form>
+            <FormInput
+              value={fatherName}
+              type="text"
+              label="Father Name"
+              name="fatherName"
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              value={motherName}
+              type="text"
+              label="Mother Name"
+              name="motherName"
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              type="email"
+              name="email"
+              label="Email"
+              value={email}
+              onChange={studentDataHandler}
+              required
+            />
+            <Space direction="vertical">
+              <DatePicker placeholder="DOB" onChange={onChange} />
+            </Space>
+            <FormInput
+              type="text"
+              name="hightSchool"
+              label="10th Percentage"
+              value={hightSchool}
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              type="text"
+              name="interMidiate"
+              label="12th Percentage"
+              value={interMidiate}
+              onChange={studentDataHandler}
+              required
+            />
+            {course === "MCA" && (
+              <FormInput
+                type="text"
+                name="ug"
+                label="Graduation Percentage"
+                value={ug}
+                onChange={studentDataHandler}
+                required
+              />
+            )}
+            <FormInput
+              type="text"
+              name="mobile"
+              label="Mobile"
+              value={mobile}
+              onChange={studentDataHandler}
+              required
+            />
+          </div>
+          <CustomButton type="submit">Submit</CustomButton>
+        </form>
+      ) : (
+        <form className="sign_up_form" onSubmit={submitHandler}>
+          <div className="formContainer">
+            <FormInput
+              value={name}
+              type="text"
+              label="Name"
+              name="name"
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              value={fatherName}
+              type="text"
+              label="Father Name"
+              name="fatherName"
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              value={motherName}
+              type="text"
+              label="Mother Name"
+              name="motherName"
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              type="email"
+              name="email"
+              label="Email"
+              value={email}
+              onChange={studentDataHandler}
+              required
+            />
+            <Space direction="vertical">
+              <DatePicker placeholder="DOB" onChange={onChange} />
+            </Space>
+            <FormInput
+              type="text"
+              name="hightSchool"
+              label="10th Percentage"
+              value={hightSchool}
+              onChange={studentDataHandler}
+              required
+            />
+            <FormInput
+              type="text"
+              name="interMidiate"
+              label="12th Percentage"
+              value={interMidiate}
+              onChange={studentDataHandler}
+              required
+            />
+            {course === "MCA" && (
+              <FormInput
+                type="text"
+                name="ug"
+                label="Graduation Percentage"
+                value={ug}
+                onChange={studentDataHandler}
+                required
+              />
+            )}
+            <FormInput
+              type="text"
+              name="mobile"
+              label="Mobile"
+              value={mobile}
+              onChange={studentDataHandler}
+              required
+            />
+          </div>
+          <CustomButton type="submit">Submit</CustomButton>
+        </form>
+      )}
     </SignUpStyle>
   );
 };

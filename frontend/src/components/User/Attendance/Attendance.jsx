@@ -48,7 +48,7 @@ const Attendance = () => {
       <GlobalStyle />
       <Main>
         <Left>
-          {role === "user" && (
+          {role === "student" && (
             <Menu
               mode="inline"
               style={{
@@ -64,7 +64,7 @@ const Attendance = () => {
         </Left>
 
         <Right className="kishore">
-          {role === "user" && (
+          {role === "student" && (
             <ButtonForMonth
               className={chooseSubject ? "block" : "none"}
               chooseSubject={chooseSubject}

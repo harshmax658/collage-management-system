@@ -6,9 +6,9 @@ const NavBar = () => (
     <div className="logo">logo</div>
     <div className="menu">
       <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        <li>home</li>
+        <li>login</li>
+        <li>signup</li>
       </ul>
     </div>
   </Nav>

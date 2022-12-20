@@ -27,6 +27,16 @@ export const GlobalCss = createGlobalStyle`
     align-items: flex-end;
     justify-content: center;
 }
+
+.form_input_label {
+  &.shrink {
+      top: -5px;
+      left: 0px;
+      font-size: 14px;
+      color: black;
+      
+    }
+}
 `;
 
 export const FormContainer = styled.div`

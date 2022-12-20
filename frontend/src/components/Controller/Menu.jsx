@@ -20,7 +20,7 @@ const CustomMenu = () => {
   };
 
   const selectRole = () => {
-    if (role === "user")
+    if (role === "student")
       return [
         {
           key: "/",
@@ -81,14 +81,20 @@ const CustomMenu = () => {
       {
         key: "/",
         icon: <DashboardIcon />,
-        label: "register",
+        label: "Register",
         onClick: () => navigate(`register`),
       },
       {
         key: "attendance",
         icon: <FaUserGraduate />,
-        label: "modify",
-        onClick: () => navigate(`modify`),
+        label: "Add Faculty",
+        onClick: () => navigate(`add-faculty`),
+      },
+      {
+        key: "course",
+        icon: <FaUserGraduate />,
+        label: "Add Course",
+        onClick: () => navigate(`add-course`),
       },
     ];
   };

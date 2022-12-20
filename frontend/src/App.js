@@ -1,12 +1,6 @@
 import Controller from "./components/Controller/Controller";
 import { GlobalStyle } from "./Body_style";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import News from "./components/User/Dashboard/News/News";
 import Timetable from "./components/User/TimeTable/Timetable";
 import Grades from "./components/User/Grades";
@@ -14,26 +8,25 @@ import Dashboard from "./components/User/Dashboard/Dashboard";
 import Attendance from "./components/User/Attendance/Attendance";
 import Form from "./components/Form/Form";
 import Index from "./components/Index/Index";
-import { useState } from "react";
+
 import { useSelector } from "react-redux";
 import Registration from "./components/admin/Registration";
-import Modify from "./components/admin/Modify";
+import AddFaculty from "./components/admin/AddFaculty";
+import AddNewCourse from "./components/admin/Course/AddNewCourse";
 
 const App = () => {
-  const { role } = useSelector(({ loginReducer }) => loginReducer);
-  console.log(role);
-  const [login, setLogin] = useState(false);
-  // const navigate = useNavigate();
+  const { role, logged } = useSelector(({ loginReducer }) => loginReducer);
+
   return (
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        {!login && <Route path="/" element={<Index setLogin={setLogin} />} />}
-        {login && (
-          <Route path="/" element={<Controller setLogin={setLogin} />}>
+        {!logged && <Route path="/" element={<Index />} />}
+        {logged && (
+          <Route path="/" element={<Controller />}>
             <Route index element={<Dashboard />} />
 
-            {role === "user" && (
+            {role === "student" && (
               <>
                 <Route path="/attendance" element={<Attendance />} />
                 <Route path="/grades" element={<Grades />} />
@@ -50,11 +43,12 @@ const App = () => {
             )}
           </Route>
         )}
-        <Route path="/admin" element={<Controller setLogin={setLogin} />}>
+        <Route path="/admin" element={<Controller />}>
           <Route index path="register" element={<Registration />} />
-          <Route path="modify" element={<Modify />} />
+          <Route path="add-faculty" element={<AddFaculty />} />
+          <Route path="add-course" element={<AddNewCourse />} />
         </Route>
-        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

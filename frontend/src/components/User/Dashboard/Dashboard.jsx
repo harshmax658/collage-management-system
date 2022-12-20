@@ -23,7 +23,7 @@ const subjects = [
 ];
 
 const TopBox = {
-  user: [
+  student: [
     {
       key: 1,
       color: "red",
@@ -99,7 +99,7 @@ const Dashboard = () => {
         })}
       </DashHeader>
 
-      {role === "user" && (
+      {role === "student" && (
         <DashboardDownInfo>
           <div className="left">
             <div className="percentage">75%</div>

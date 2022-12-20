@@ -6,9 +6,11 @@ export const GlobalStyle = createGlobalStyle`
     padding:0;
     margin:0;
     box-sizing:border-Box;
+
 }
 #root{
     height: 100vh;
+    position: relative;
 }
 .h100Vh{
     height: 100%;

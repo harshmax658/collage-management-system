@@ -2,6 +2,8 @@ import React from "react";
 import { GlobalCss } from "./FormInputStyle";
 
 const FormInputComponent = ({ onchange, htmlFor, label, ...otherprops }) => {
+  // console.log("otherprops?.value?.length ");
+  // console.log(otherprops?.value?.length);
   return (
     <div className="formInput_group">
       <GlobalCss />

@@ -20,9 +20,7 @@ function* studentRegistrationStart({
     message: responseJson.message,
     status: response.status,
   };
-  console.log(data);
-  console.log(data.status);
-  console.log(response.status);
+
   if (response.status === 200) {
     yield put(studentRegistrationSuccess(data));
   } else {
@@ -34,6 +32,6 @@ function* studentRegistration() {
   yield takeLatest(STUDENT_REGISTRATION_START, studentRegistrationStart);
 }
 
-export function* adminSaga() {
+export default function* adminSaga() {
   yield all([call(studentRegistration)]);
 }
