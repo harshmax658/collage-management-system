@@ -28,14 +28,8 @@ export const GlobalCss = createGlobalStyle`
     justify-content: center;
 }
 
-.form_input_label {
-  &.shrink {
-      top: -5px;
-      left: 0px;
-      font-size: 14px;
-      color: black;
-      
-    }
+label {
+ top: 20px !important ;
 }
 `;
 
@@ -51,12 +45,12 @@ export const FormTag = styled.form`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  input {
+  /* input {
     margin: 10px 0;
     border: none;
     border-bottom: 1px solid lightgray;
     color: white;
-  }
+  } */
   .btn {
     margin-top: 20px;
     button {

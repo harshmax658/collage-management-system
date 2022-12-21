@@ -21,7 +21,7 @@ const Form = () => {
     emailOrMobile: "9911299826",
     password: "CMS@2022",
   });
-
+  const { emailOrMobile, password } = formData;
   const showDrawer = () => {
     setOpen(true);
     setHideBtn(true);
@@ -31,8 +31,6 @@ const Form = () => {
     setOpen(false);
   };
   const loginHandler = () => {
-    console.log("call");
-    console.log(formData);
     if (formData.emailOrMobile && formData.password) {
       dispatch(studentLoginStart(formData));
     }
@@ -46,12 +44,7 @@ const Form = () => {
           }}
         >
           <GlobalCss />
-          {!hideBtn && (
-            // <Button type="primary" onClick={showDrawer}>
-            //   Login
-            // </Button>
-            <CustomButton onClick={showDrawer}>Login</CustomButton>
-          )}
+          {!hideBtn && <CustomButton onClick={showDrawer}>Login</CustomButton>}
         </div>
         <Drawer
           title="Login"
@@ -71,7 +64,7 @@ const Form = () => {
               id="emailOrMobile"
               required
               htmlFor={"emailOrMobile"}
-              value={formData.emailOrMobile}
+              value={emailOrMobile}
               onChange={formDataHandler}
             />
             <FormInputComponent
@@ -81,7 +74,8 @@ const Form = () => {
               id="password"
               required
               htmlFor={"password"}
-              value={formData.password}
+              value={password}
+              // style={{ top: "20px" }}
               onChange={formDataHandler}
             />
             <div className="btn">

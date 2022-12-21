@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
 }
 .dropDown{
-    border: 1px solid;
+    /* border: 1px solid; */
     height: 100%;
    
     position: relative;

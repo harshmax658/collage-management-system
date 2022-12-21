@@ -18,7 +18,7 @@ export const GlobalCss = createGlobalStyle`
     margin: 25px 0;
     outline: none;
 
-    &:focus ~ .form_input_label {
+    &:focus ~ .form_input_label  {
       top: -5px;
       left: 0px;
       font-size: 14px;
@@ -39,7 +39,7 @@ export const GlobalCss = createGlobalStyle`
     transition: 300ms ease all;
 
     &.shrink {
-      top: -5px;
+      top: -5px  !important;
       left: 0px;
       font-size: 14px;
       color: black;

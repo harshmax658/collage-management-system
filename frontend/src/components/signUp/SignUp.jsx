@@ -24,8 +24,9 @@ const SignUp = ({
   addFaculty,
   items,
   handleChange,
-  onClose,
-  openDrawer,
+  courseData,
+  setCourseData,
+  courseHandler,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -88,7 +89,7 @@ const SignUp = ({
       delete studentDataNew.ug;
     }
     studentDataNew.role = "student";
-    console.log(studentDataNew);
+
     dispatch(studentRegistrationStart({ studentDataNew, notificationHandler }));
   };
 
@@ -102,14 +103,19 @@ const SignUp = ({
 
       {newCourse ? (
         <div className="newCourse">
-          <form className="sign_up_form" onSubmit={submitHandler}>
+          <form className="sign_up_form" onSubmit={courseHandler}>
             <div className="formContainer">
               <FormInput
-                value={name}
+                value={courseData.name}
                 type="text"
                 label="Course name"
-                name="courseName"
-                // onChange={courseName}
+                name="name"
+                onChange={(e) => {
+                  const { value, name } = e.target;
+                  setCourseData((prev) => {
+                    return { ...prev, [name]: value };
+                  });
+                }}
                 required
               />
               <>
@@ -118,6 +124,7 @@ const SignUp = ({
                   style={{
                     width: 120,
                   }}
+                  name="semester"
                   onChange={handleChange}
                   options={items}
                 />
@@ -125,9 +132,9 @@ const SignUp = ({
             </div>
             <CustomButton type="submit">Submit</CustomButton>
           </form>
-          <div className="dropDown">
+          {/* <div className="dropDown">
             <CourseModal openDrawer={openDrawer} onClose={onClose} />
-          </div>
+          </div> */}
         </div>
       ) : addFaculty ? (
         <form className="sign_up_form" onSubmit={submitHandler}>

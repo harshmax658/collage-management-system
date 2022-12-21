@@ -12,7 +12,7 @@ export const GlobalCss = createGlobalStyle`
   font-size: 1.2rem !important;
 }
 .form_input_label{
-  top: 20px !important;
+  /* top: 20px !important; */
 }
 .form_input{
   margin: 16px 0  !important;

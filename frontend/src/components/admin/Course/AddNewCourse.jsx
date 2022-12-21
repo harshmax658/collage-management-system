@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { createContext } from "react";
+import { useDispatch } from "react-redux";
 import useLoginSignup from "../../../Custom Hooks/useLoginSignup";
+import { addNewCourseStart } from "../../../redux/admin/action";
 import FormInputComponent from "../../Form Input/FormInputComponent";
 import SignUp from "../../signUp/SignUp";
 
@@ -42,24 +44,25 @@ const items = [
 ];
 
 const semesterDataObj = {
-  sem1: [<FormInputComponent />, <FormInputComponent />],
+  sem1: [FormInputComponent],
 
-  sem2: [<FormInputComponent />],
+  sem2: [FormInputComponent],
 };
 
 const SemesterData = createContext();
 const AddNewCourse = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [courseSemesterData, setCourseSemesterData] = useState(semesterDataObj);
+  const dispatch = useDispatch();
 
-  const [courseData, setCourseData] = useLoginSignup({
-    courseName: "",
+  const [courseData, setCourseData] = useState({
+    name: "",
     semester: 0,
   });
 
   const [open, setOpen] = useState(false);
   const handleMenuClick = (e) => {
-    console.log(e.key);
+    // console.log(e.key);
     // if (e.key === "3") {
     setOpen(false);
     // }
@@ -75,9 +78,21 @@ const AddNewCourse = () => {
   };
 
   const handleChange = (value) => {
-    console.log(value);
-    showDrawer(true);
+    // showDrawer(true);
+
+    setCourseData((prev) => {
+      return { ...prev, ["semester"]: value };
+    });
   };
+  const courseHandler = (e) => {
+    e.preventDefault();
+    dispatch(addNewCourseStart(courseData));
+    setCourseData({
+      name: "",
+      semester: 0,
+    });
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -91,6 +106,9 @@ const AddNewCourse = () => {
           onClose={onClose}
           openDrawer={openDrawer}
           handleChange={handleChange}
+          courseData={courseData}
+          setCourseData={setCourseData}
+          courseHandler={courseHandler}
         />
       </SemesterData.Provider>
     </>
