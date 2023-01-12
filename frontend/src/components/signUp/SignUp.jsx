@@ -8,7 +8,7 @@ import { SignUpStyle, GlobalCss } from "./SignupStyle";
 import { useDispatch, useSelector } from "react-redux";
 import { studentRegistrationStart } from "../../redux/admin/action";
 
-import { message, DatePicker, Space, Select } from "antd";
+import { message, DatePicker, Space, Select, Radio } from "antd";
 
 import { useState } from "react";
 import CourseModal from "../admin/Course/CourseModal";
@@ -29,6 +29,10 @@ const SignUp = ({
   courseHandler,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [section, setSection] = useState("");
+  const onRadio = (e) => {
+    setSection(e.target.value);
+  };
 
   const key = "updatable";
   const openMessage = (msg, status) => {
@@ -84,6 +88,7 @@ const SignUp = ({
       ...studentData,
       ...studentDob,
       course: course,
+      section: section,
     };
     if (course === "MCA") {
       delete studentDataNew.ug;
@@ -283,6 +288,10 @@ const SignUp = ({
               onChange={studentDataHandler}
               required
             />
+            <Radio.Group onChange={onRadio} value={section}>
+              <Radio value={"A"}>A</Radio>
+              <Radio value={"B"}>B</Radio>
+            </Radio.Group>
           </div>
           <CustomButton type="submit">Submit</CustomButton>
         </form>

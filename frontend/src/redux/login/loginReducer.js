@@ -7,7 +7,7 @@ const initialUserState = {
   role: "",
   data: null,
   error: null,
-  logged: null,
+  logged: false,
   name: null,
 };
 
@@ -18,7 +18,7 @@ const userReducer = (state = initialUserState, action) => {
       return {
         ...state,
         logged: true,
-        role: data.role,
+        role: "faculty",
         data: data,
         name: data.name,
       };
