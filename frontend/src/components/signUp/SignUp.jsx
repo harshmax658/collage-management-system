@@ -2,16 +2,16 @@ import React from "react";
 import FormInput from "../Form Input/FormInputComponent";
 import CustomButton from "../custom-button/CustomButton";
 
-import { DownOutlined } from "@ant-design/icons";
-
 import { SignUpStyle, GlobalCss } from "./SignupStyle";
-import { useDispatch, useSelector } from "react-redux";
-import { studentRegistrationStart } from "../../redux/admin/action";
+import { useDispatch } from "react-redux";
+import {
+  facultyRegistrationStart,
+  studentRegistrationStart,
+} from "../../redux/admin/action";
 
 import { message, DatePicker, Space, Select, Radio } from "antd";
 
 import { useState } from "react";
-import CourseModal from "../admin/Course/CourseModal";
 
 const SignUp = ({
   course,
@@ -27,6 +27,10 @@ const SignUp = ({
   courseData,
   setCourseData,
   courseHandler,
+  facultyData,
+  facultyDataHandler,
+  dob,
+  setDob,
 }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [section, setSection] = useState("");
@@ -63,15 +67,23 @@ const SignUp = ({
     interMidiate,
     mobile,
     ug,
-  } = studentData || [];
+  } = studentData || facultyData || [];
 
   const onChange = (date) => {
     if (date.$d.getFullYear()) {
-      setStudentDob({
-        date: date.$d.getDay(),
-        month: date.$d.getMonth() + 1,
-        year: date.$d.getFullYear(),
-      });
+      if (facultyData) {
+        setDob({
+          date: date.$d.getDay(),
+          month: date.$d.getMonth() + 1,
+          year: date.$d.getFullYear(),
+        });
+      } else {
+        setStudentDob({
+          date: date.$d.getDay(),
+          month: date.$d.getMonth() + 1,
+          year: date.$d.getFullYear(),
+        });
+      }
     }
   };
 
@@ -84,18 +96,30 @@ const SignUp = ({
   };
   const submitHandler = (event) => {
     event.preventDefault();
-    const studentDataNew = {
-      ...studentData,
-      ...studentDob,
-      course: course,
-      section: section,
-    };
-    if (course === "MCA") {
-      delete studentDataNew.ug;
-    }
-    studentDataNew.role = "student";
 
-    dispatch(studentRegistrationStart({ studentDataNew, notificationHandler }));
+    if (addFaculty) {
+      const facultyDataNew = {
+        ...facultyData,
+        ...dob,
+      };
+      dispatch(
+        facultyRegistrationStart({ facultyDataNew, notificationHandler })
+      );
+    } else {
+      const studentDataNew = {
+        ...studentData,
+        ...studentDob,
+        course: course,
+        section: section,
+      };
+      if (course === "MCA") {
+        delete studentDataNew.ug;
+      }
+      studentDataNew.role = "student";
+      dispatch(
+        studentRegistrationStart({ studentDataNew, notificationHandler })
+      );
+    }
   };
 
   return (
@@ -149,7 +173,7 @@ const SignUp = ({
               type="text"
               label="Name"
               name="name"
-              onChange={studentDataHandler}
+              onChange={facultyDataHandler}
               required
             />
             <FormInput
@@ -157,7 +181,7 @@ const SignUp = ({
               type="text"
               label="Father Name"
               name="fatherName"
-              onChange={studentDataHandler}
+              onChange={facultyDataHandler}
               required
             />
             <FormInput
@@ -165,7 +189,7 @@ const SignUp = ({
               type="text"
               label="Mother Name"
               name="motherName"
-              onChange={studentDataHandler}
+              onChange={facultyDataHandler}
               required
             />
             <FormInput
@@ -173,44 +197,19 @@ const SignUp = ({
               name="email"
               label="Email"
               value={email}
-              onChange={studentDataHandler}
+              onChange={facultyDataHandler}
               required
             />
             <Space direction="vertical">
               <DatePicker placeholder="DOB" onChange={onChange} />
             </Space>
-            <FormInput
-              type="text"
-              name="hightSchool"
-              label="10th Percentage"
-              value={hightSchool}
-              onChange={studentDataHandler}
-              required
-            />
-            <FormInput
-              type="text"
-              name="interMidiate"
-              label="12th Percentage"
-              value={interMidiate}
-              onChange={studentDataHandler}
-              required
-            />
-            {course === "MCA" && (
-              <FormInput
-                type="text"
-                name="ug"
-                label="Graduation Percentage"
-                value={ug}
-                onChange={studentDataHandler}
-                required
-              />
-            )}
+
             <FormInput
               type="text"
               name="mobile"
               label="Mobile"
               value={mobile}
-              onChange={studentDataHandler}
+              onChange={facultyDataHandler}
               required
             />
           </div>

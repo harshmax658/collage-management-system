@@ -1,3 +1,4 @@
+const Faculty = require("../Models/Faculty");
 const Student = require("../Models/Student");
 
 const createNewStudent = async (request, response) => {
@@ -26,5 +27,30 @@ const createNewStudent = async (request, response) => {
     });
   }
 };
+const createNewFaculty = async (request, response) => {
+  try {
+    const faculty = await Faculty.findOne({ email: request.body.email });
+    if (faculty) {
+      return response.status(422).json({
+        message: "student already exist",
+      });
+    }
+    const newFaculty = new Faculty({
+      ...request.body,
+      password: `CMS@${request.body.year}`,
+    });
+    console.log(newFaculty);
+    await newFaculty.save();
 
-module.exports = { createNewStudent };
+    return response.status(200).json({
+      message: "New faculty registerd",
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      message: "Internal server error !! ",
+    });
+  }
+};
+
+module.exports = { createNewStudent, createNewFaculty };

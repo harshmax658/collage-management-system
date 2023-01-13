@@ -1,11 +1,17 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 
-import { STUDENT_REGISTRATION_START, ADD_NEW_COURSE_START } from "./action";
+import {
+  STUDENT_REGISTRATION_START,
+  ADD_NEW_COURSE_START,
+  FACULTY_REGISTRATION_START,
+} from "./action";
 import {
   studentRegistrationSuccess,
   studentRegistrationFailure,
   addNewCourseSuccess,
   addNewCourseFailure,
+  facultyRegistrationSuccess,
+  facultyRegistrationFailure,
 } from "./action";
 
 function* addNewCourseStart({ data }) {
@@ -52,7 +58,36 @@ function* studentRegistrationStart({
 function* studentRegistration() {
   yield takeLatest(STUDENT_REGISTRATION_START, studentRegistrationStart);
 }
+function* facultyRegistrationStart({
+  data: { notificationHandler, facultyDataNew },
+}) {
+  const response = yield fetch("/api/admin/register-new-faculty", {
+    method: "Post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(facultyDataNew),
+  });
+
+  const responseJson = yield response.json();
+  const data = {
+    message: responseJson.message,
+    status: response.status,
+  };
+
+  if (response.status === 200) {
+    yield put(facultyRegistrationSuccess(data));
+  } else {
+    yield put(facultyRegistrationFailure(data));
+  }
+  notificationHandler(responseJson.message, data.status);
+}
+function* facultyRegistration() {
+  yield takeLatest(FACULTY_REGISTRATION_START, facultyRegistrationStart);
+}
 
 export default function* adminSaga() {
-  yield all([call(studentRegistration), call(addNewCourse)]);
+  yield all([
+    call(studentRegistration),
+    call(addNewCourse),
+    call(facultyRegistration),
+  ]);
 }

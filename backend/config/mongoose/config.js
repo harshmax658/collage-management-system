@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
+const url = process.env.DATABASE_URL;
 mongoose
-  .connect("mongodb://127.0.0.1/cms")
+  .connect(url)
   .then(() => {
     console.log("Db config set succesfully");
   })
