@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { GlobalStyle } from "./Admin_style";
-import { Radio } from "antd";
+import { GlobalStyle } from "../Admin_style";
 
-import SignUp from "../signUp/SignUp";
-import useLoginSignup from "../../Custom Hooks/useLoginSignup";
+import SignUp from "../../signUp/SignUp";
+import useLoginSignup from "../../../Custom Hooks/useLoginSignup";
 
 const Registration = () => {
-  const [course, setCourse] = useState("");
   const [select, setSelect] = useState(false);
   const [studentDob, setStudentDob] = useState({
     date: 0,
@@ -25,32 +23,11 @@ const Registration = () => {
     role: "",
   });
 
-  const onChange = ({ target: { value } }) => {
-    setCourse(value);
-    setSelect(true);
-  };
-
-  const options = [
-    {
-      label: "MCA",
-      value: "MCA",
-    },
-    {
-      label: "BCA",
-      value: "BCA",
-    },
-  ];
   return (
     <>
       <GlobalStyle />
 
-      <Radio.Group
-        options={options}
-        onChange={onChange}
-        value={course}
-        optionType="button"
-      />
-      {select && (
+      {/* {select && (
         <SignUp
           course={course}
           studentData={studentData}
@@ -59,7 +36,7 @@ const Registration = () => {
           setStudentDob={setStudentDob}
           resetValues={resetValues}
         />
-      )}
+      )} */}
     </>
   );
 };

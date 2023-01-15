@@ -1,11 +1,13 @@
 const Course = require("../Models/Course");
 
-const addNewCourse = async (request, response) => {
+const getCourses = async (request, response) => {
   try {
-    const course = new Course({ ...request.body });
-    await course.save();
+    console.log("first");
+    const course = await Course.find();
+    console.log(course);
     return response.status(200).json({
-      message: "Course added Succesfully",
+      message: "Course Found",
+      courses: course,
     });
   } catch (error) {
     return response.status(500).json({
@@ -14,4 +16,4 @@ const addNewCourse = async (request, response) => {
   }
 };
 
-module.exports = { addNewCourse };
+module.exports = { getCourses };

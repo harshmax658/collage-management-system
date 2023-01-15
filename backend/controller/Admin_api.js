@@ -52,5 +52,18 @@ const createNewFaculty = async (request, response) => {
     });
   }
 };
+const addNewCourse = async (request, response) => {
+  try {
+    const course = new Course({ ...request.body });
+    await course.save();
+    return response.status(200).json({
+      message: "Course added Succesfully",
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: "Internal server error !!",
+    });
+  }
+};
 
-module.exports = { createNewStudent, createNewFaculty };
+module.exports = { createNewStudent, createNewFaculty, addNewCourse };

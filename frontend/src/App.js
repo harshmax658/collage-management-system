@@ -1,6 +1,7 @@
 import Controller from "./components/Controller/Controller";
 import { GlobalStyle } from "./Body_style";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import News from "./components/User/Dashboard/News/News";
 import Timetable from "./components/User/TimeTable/Timetable";
 import Grades from "./components/User/Grades";
@@ -9,10 +10,10 @@ import Attendance from "./components/User/Attendance/Attendance";
 import Form from "./components/Form/Form";
 import Index from "./components/Index/Index";
 
-import { useSelector } from "react-redux";
-import Registration from "./components/admin/Registration";
+import Registration from "./components/admin/Student/Registration";
 import AddFaculty from "./components/admin/AddFaculty";
 import AddNewCourse from "./components/admin/Course/AddNewCourse";
+import UpdateStudent from "./components/admin/Student/UpdateStudent";
 
 const App = () => {
   const { role, logged } = useSelector(({ loginReducer }) => loginReducer);
@@ -44,7 +45,8 @@ const App = () => {
           </Route>
         )}
         <Route path="/admin" element={<Controller />}>
-          <Route index path="register" element={<Registration />} />
+          <Route index path="register-student" element={<Registration />} />
+          <Route index path="update-student" element={<UpdateStudent />} />
           <Route path="add-faculty" element={<AddFaculty />} />
           <Route path="add-course" element={<AddNewCourse />} />
         </Route>

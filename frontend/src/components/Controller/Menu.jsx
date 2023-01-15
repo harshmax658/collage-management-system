@@ -81,13 +81,25 @@ const CustomMenu = () => {
       {
         key: "/",
         icon: <DashboardIcon />,
-        label: "Register",
-        onClick: () => navigate(`register`),
+        label: "Register Student",
+        onClick: () => navigate(`register-student`),
+      },
+      {
+        key: "/us",
+        icon: <DashboardIcon />,
+        label: "Update Student",
+        onClick: () => navigate(`update-student`),
+      },
+      {
+        key: "attendance1",
+        icon: <FaUserGraduate />,
+        label: "Add Faculty",
+        onClick: () => navigate(`add-faculty`),
       },
       {
         key: "attendance",
         icon: <FaUserGraduate />,
-        label: "Add Faculty",
+        label: "Update Faculty",
         onClick: () => navigate(`add-faculty`),
       },
       {

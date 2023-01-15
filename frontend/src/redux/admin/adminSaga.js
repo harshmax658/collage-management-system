@@ -1,9 +1,11 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
+import MakeRequest from "../../functions/MakeRequest";
 
 import {
   STUDENT_REGISTRATION_START,
   ADD_NEW_COURSE_START,
   FACULTY_REGISTRATION_START,
+  GET_COURSES_START,
 } from "./action";
 import {
   studentRegistrationSuccess,
@@ -12,17 +14,14 @@ import {
   addNewCourseFailure,
   facultyRegistrationSuccess,
   facultyRegistrationFailure,
+  getCourseSuccess,
+  getCourseFailure,
 } from "./action";
 
 function* addNewCourseStart({ data }) {
-  const response = yield fetch("/api/course/add-new-course", {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
+  const response = MakeRequest("/api/course/add-new-course", "Post", data);
   const responseJson = yield response.json();
-  console.log(responseJson);
+
   if (response.status === 200) {
     yield put(addNewCourseSuccess());
   } else {
@@ -36,12 +35,11 @@ function* addNewCourse() {
 function* studentRegistrationStart({
   data: { notificationHandler, studentDataNew },
 }) {
-  const response = yield fetch("/api/admin/register-new-student", {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(studentDataNew),
-  });
-
+  const response = yield MakeRequest(
+    "/api/admin/register-new-student",
+    "Post",
+    studentDataNew
+  );
   const responseJson = yield response.json();
   const data = {
     message: responseJson.message,
@@ -58,14 +56,15 @@ function* studentRegistrationStart({
 function* studentRegistration() {
   yield takeLatest(STUDENT_REGISTRATION_START, studentRegistrationStart);
 }
+
 function* facultyRegistrationStart({
   data: { notificationHandler, facultyDataNew },
 }) {
-  const response = yield fetch("/api/admin/register-new-faculty", {
-    method: "Post",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(facultyDataNew),
-  });
+  const response = yield MakeRequest(
+    "/api/admin/register-new-faculty",
+    "Post",
+    facultyDataNew
+  );
 
   const responseJson = yield response.json();
   const data = {
@@ -84,10 +83,26 @@ function* facultyRegistration() {
   yield takeLatest(FACULTY_REGISTRATION_START, facultyRegistrationStart);
 }
 
+function* getCourseStart() {
+  const response = yield MakeRequest("/api/course/get-courses", "Get");
+
+  const responseJson = yield response.json();
+
+  if (response.status === 200) {
+    yield put(getCourseSuccess(responseJson));
+  } else {
+    yield put(getCourseFailure(responseJson));
+  }
+}
+function* getCourse() {
+  yield takeLatest(GET_COURSES_START, getCourseStart);
+}
+
 export default function* adminSaga() {
   yield all([
     call(studentRegistration),
     call(addNewCourse),
     call(facultyRegistration),
+    call(getCourse),
   ]);
 }
