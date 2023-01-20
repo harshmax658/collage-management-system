@@ -6,6 +6,7 @@ import {
   ADD_NEW_COURSE_START,
   FACULTY_REGISTRATION_START,
   GET_COURSES_START,
+  GET_COURSE_STUDENT_START,
 } from "./action";
 import {
   studentRegistrationSuccess,
@@ -16,6 +17,8 @@ import {
   facultyRegistrationFailure,
   getCourseSuccess,
   getCourseFailure,
+  getCourseStudentSuccess,
+  getCourseStudentFailure,
 } from "./action";
 
 function* addNewCourseStart({ data }) {
@@ -23,7 +26,7 @@ function* addNewCourseStart({ data }) {
   const responseJson = yield response.json();
 
   if (response.status === 200) {
-    yield put(addNewCourseSuccess());
+    yield put(addNewCourseSuccess(responseJson));
   } else {
     yield put(addNewCourseFailure());
   }
@@ -97,6 +100,19 @@ function* getCourseStart() {
 function* getCourse() {
   yield takeLatest(GET_COURSES_START, getCourseStart);
 }
+function* getCourseStudentStart({ data }) {
+  const response = yield MakeRequest(`/api/student/get-student/${data}`, "Get");
+  const responseJson = yield response.json();
+
+  if (response.status === 200) {
+    yield put(getCourseStudentSuccess(responseJson));
+  } else {
+    yield put(getCourseStudentFailure(responseJson));
+  }
+}
+function* getCourseStudent() {
+  yield takeLatest(GET_COURSE_STUDENT_START, getCourseStudentStart);
+}
 
 export default function* adminSaga() {
   yield all([
@@ -104,5 +120,6 @@ export default function* adminSaga() {
     call(addNewCourse),
     call(facultyRegistration),
     call(getCourse),
+    call(getCourseStudent),
   ]);
 }

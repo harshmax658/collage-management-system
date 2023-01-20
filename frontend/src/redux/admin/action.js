@@ -1,3 +1,5 @@
+export const UPDATE_LOADING_STATE = "UPDATE_LOADING_STATE";
+
 export const STUDENT_REGISTRATION_START = "STUDENT_REGISTRATION_START";
 export const STUDENT_REGISTRATION_SUCCESS = "STUDENT_REGISTRATION_SUCCESS";
 export const STUDENT_REGISTRATION_FAILURE = "STUDENT_REGISTRATION_FAILURE";
@@ -14,6 +16,28 @@ export const GET_COURSES_START = "GET_COURSES_START";
 export const GET_COURSES_SUCCESS = "GET_COURSES_SUCCESS";
 export const GET_COURSES_FAILURE = "GET_COURSES_FAILURE";
 
+export const GET_COURSE_STUDENT_START = "GET_COURSE_STUDENT_START";
+export const GET_COURSE_STUDENT_SUCCESS = "GET_COURSE_STUDENT_SUCCESS";
+export const GET_COURSE_STUDENT_FAILURE = "GET_COURSE_STUDENT_FAILURE";
+
+export const getCourseStudentStart = (data) => {
+  return {
+    type: GET_COURSE_STUDENT_START,
+    data,
+  };
+};
+export const getCourseStudentSuccess = (data) => {
+  return {
+    type: GET_COURSE_STUDENT_SUCCESS,
+    data,
+  };
+};
+export const getCourseStudentFailure = (data) => {
+  return {
+    type: GET_COURSE_STUDENT_FAILURE,
+    data,
+  };
+};
 export const getCourseStart = (data) => {
   return {
     type: GET_COURSES_START,
@@ -83,6 +107,12 @@ export const addNewCourseSuccess = (data) => {
 export const addNewCourseFailure = (data) => {
   return {
     type: ADD_NEW_COURSE_FAILURE,
+    data,
+  };
+};
+export const updateLoadingState = (data) => {
+  return {
+    type: UPDATE_LOADING_STATE,
     data,
   };
 };

@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { Radio } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getCourseStart } from "../../../redux/admin/action";
+import {
+  getCourseStart,
+  getCourseStudentStart,
+  updateLoadingState,
+} from "../../../redux/admin/action";
 
-const options = [];
-const CourseOption = () => {
-  const { courses } = useSelector(({ adminReducer }) => adminReducer);
+const CourseOption = ({ course, setCourse, setLoading }) => {
+  const { courses, loading } = useSelector(({ adminReducer }) => adminReducer);
   const dispatch = useDispatch();
-  const [course, setCourse] = useState("");
   const [options, setOptions] = useState([]);
 
   const courseGenerator = (data) => {
@@ -19,17 +21,23 @@ const CourseOption = () => {
     });
   };
   useEffect(() => {
-    dispatch(getCourseStart());
+    if (courses.length === 0) {
+      dispatch(getCourseStart());
+    }
   }, []);
   useEffect(() => {
     courseGenerator(courses);
-    console.log("courses");
-    console.log(options);
+    return () => setOptions([]);
   }, [courses]);
 
   const onChange = ({ target: { value } }) => {
+    setLoading(true);
     setCourse(value);
-    // setSelect(true);
+    if (!loading) dispatch(updateLoadingState(!loading));
+    dispatch(getCourseStudentStart(value));
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
   return (
     <>
