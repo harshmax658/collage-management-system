@@ -7,6 +7,7 @@ import {
   FACULTY_REGISTRATION_START,
   GET_COURSES_START,
   GET_COURSE_STUDENT_START,
+  updateLoadingState,
 } from "./action";
 import {
   studentRegistrationSuccess,

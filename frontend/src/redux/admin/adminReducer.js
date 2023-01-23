@@ -35,20 +35,18 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         courses: action.data.courses,
-        loading: false,
       };
     }
     case GET_COURSE_STUDENT_SUCCESS: {
       return {
         ...state,
         studentList: action.data.data,
-        loading: false,
       };
     }
     case UPDATE_LOADING_STATE: {
       return {
         ...state,
-        loading: !action.data,
+        loading: action.data,
       };
     }
 

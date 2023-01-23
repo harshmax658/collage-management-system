@@ -5,7 +5,31 @@ export const GlobalStyle = createGlobalStyle`
     position: relative !important;
     overflow: visible !important;
 }
-
+.ant-space-vertical{
+    align-items: center !important;
+}
+.ant-spin-dot{
+    left: 225px !important;
+    
+    margin-top: -28px !important;
+}
+.content {
+  padding: 230px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 40px;
+}
+.student{
+    height: 98%;
+}
+.ant-table-thead{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.ant-table-wrapper{
+    height: 100%;
+    overflow: auto;
+}
 .name{
     display: flex;
 
@@ -39,5 +63,25 @@ export const GlobalStyle = createGlobalStyle`
 }
 .ant-drawer-content-wrapper{
     height: 100% !important;
+}
+.site-description-item-profile-wrapper {
+  margin-bottom: 7px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  line-height: 1.5715;
+}
+
+.ant-drawer-body p.site-description-item-profile-p {
+  display: block;
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 16px;
+  line-height: 1.5715;
+}
+
+.site-description-item-profile-p-label {
+  display: inline-block;
+  margin-right: 8px;
+  color: rgba(0, 0, 0, 0.85);
 }
 `;

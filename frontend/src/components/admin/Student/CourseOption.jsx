@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import {
   getCourseStart,
   getCourseStudentStart,
-  updateLoadingState,
 } from "../../../redux/admin/action";
 
+import SpinLoader from "../../SpinLoader/SpinLoader";
 const CourseOption = ({ course, setCourse, setLoading }) => {
   const { courses, loading } = useSelector(({ adminReducer }) => adminReducer);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const CourseOption = ({ course, setCourse, setLoading }) => {
   const onChange = ({ target: { value } }) => {
     setLoading(true);
     setCourse(value);
-    if (!loading) dispatch(updateLoadingState(!loading));
+    // dispatch(updateLoadingState(!loading));
     dispatch(getCourseStudentStart(value));
     setTimeout(() => {
       setLoading(false);
@@ -49,7 +49,9 @@ const CourseOption = ({ course, setCourse, setLoading }) => {
           optionType="button"
         />
       ) : (
-        "loading..."
+        <div className="center">
+          <SpinLoader />
+        </div>
       )}
     </>
   );
