@@ -1,6 +1,6 @@
 function* MakeRequest(url, type, data) {
   let response;
-  if (type === "Post") {
+  if (type === "Post" || type === "Delete") {
     response = yield fetch(url, {
       method: type,
       headers: { "Content-Type": "application/json" },

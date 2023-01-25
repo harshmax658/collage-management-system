@@ -20,20 +20,21 @@ const CourseOption = ({ course, setCourse, setLoading }) => {
       });
     });
   };
+
   useEffect(() => {
-    if (courses.length === 0) {
-      dispatch(getCourseStart());
-    }
+    dispatch(getCourseStart());
+    return () => setOptions([]);
   }, []);
   useEffect(() => {
-    courseGenerator(courses);
-    return () => setOptions([]);
+    if (options.length === 0) {
+      courseGenerator(courses);
+    }
   }, [courses]);
 
   const onChange = ({ target: { value } }) => {
     setLoading(true);
     setCourse(value);
-    // dispatch(updateLoadingState(!loading));
+
     dispatch(getCourseStudentStart(value));
     setTimeout(() => {
       setLoading(false);

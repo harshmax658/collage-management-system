@@ -9,9 +9,10 @@ import {
   studentRegistrationStart,
 } from "../../redux/admin/action";
 
-import { message, DatePicker, Space, Select, Radio } from "antd";
+import { DatePicker, Space, Select, Radio } from "antd";
 
 import { useState } from "react";
+import Notfication from "../Notification/Notfication";
 
 const SignUp = ({
   course,
@@ -32,28 +33,10 @@ const SignUp = ({
   dob,
   setDob,
 }) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const { contextHolder, notificationHandler } = Notfication();
   const [section, setSection] = useState("");
   const onRadio = (e) => {
     setSection(e.target.value);
-  };
-
-  const key = "updatable";
-  const openMessage = (msg, status) => {
-    messageApi.open({
-      key,
-      type: "loading",
-      content: "Loading...",
-    });
-    setTimeout(() => {
-      messageApi.open({
-        key,
-        type: status,
-        content: msg,
-        duration: 2,
-      });
-      if (status === "success") resetValues();
-    }, 1000);
   };
 
   const dispatch = useDispatch();
@@ -87,13 +70,6 @@ const SignUp = ({
     }
   };
 
-  const notificationHandler = (message, status) => {
-    if (status === 200) {
-      openMessage(message, "success", resetValues);
-    } else {
-      openMessage(message, "error");
-    }
-  };
   const submitHandler = (event) => {
     event.preventDefault();
 

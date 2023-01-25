@@ -20,6 +20,29 @@ export const GET_COURSE_STUDENT_START = "GET_COURSE_STUDENT_START";
 export const GET_COURSE_STUDENT_SUCCESS = "GET_COURSE_STUDENT_SUCCESS";
 export const GET_COURSE_STUDENT_FAILURE = "GET_COURSE_STUDENT_FAILURE";
 
+export const DELETE_STUDENT_START = "DELETE_STUDENT_START";
+export const DELETE_STUDENT_SUCCESS = "DELETE_STUDENT_SUCCESS";
+export const DELETE_STUDENT_FAILURE = "DELETE_STUDENT_FAILURE";
+
+export const deleteStudentStart = (data) => {
+  return {
+    type: DELETE_STUDENT_START,
+    data,
+  };
+};
+export const deleteStudentSuccess = (data) => {
+  return {
+    type: DELETE_STUDENT_SUCCESS,
+    data,
+  };
+};
+export const deleteStudentFailure = (data) => {
+  return {
+    type: DELETE_STUDENT_FAILURE,
+    data,
+  };
+};
+
 export const getCourseStudentStart = (data) => {
   return {
     type: GET_COURSE_STUDENT_START,

@@ -1,35 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, Popconfirm } from "antd";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { updateLoadingState } from "../../../redux/admin/action";
+import {
+  updateLoadingState,
+  deleteStudentStart,
+} from "../../../redux/admin/action";
 import SpinLoader from "../../SpinLoader/SpinLoader";
 import Modal from "./Modal";
+import Notfication from "../../Notification/Notfication";
 
 const { Column } = Table;
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [modal, setModal] = useState(false);
-  // const [loading, setLoading] = useState(true);
+  const [modalValue, setModalValue] = useState("");
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [studentData, setStudentData] = useState({});
+
   const dispatch = useDispatch();
+
+  const filterStudentList = (id) => {
+    const newFilterList = students.filter((data) => {
+      return id !== data.key;
+    });
+
+    setStudents(newFilterList);
+
+    setDeleteLoading(false);
+  };
 
   const { studentList, loading } = useSelector(
     ({ adminReducer }) => adminReducer
   );
+  const { contextHolder, notificationHandler } = Notfication(filterStudentList);
 
   useEffect(() => {
+    let sNo = 0;
     studentList.forEach((element) => {
       const { _id, name, date, month, year, fatherName } = element;
       setStudents((prev) => {
         return [
           ...prev,
           {
+            sNO: ++sNo,
             key: _id,
             name: name,
             dob: `${date}/${month}/${year}`,
             fName: fatherName,
             tags: ["nice", "developer"],
+            ...element,
           },
         ];
       });
@@ -45,9 +67,16 @@ const StudentList = () => {
     };
   }, [studentList]);
 
+  const deleteStudent = (id) => {
+    setDeleteLoading(!deleteLoading);
+
+    dispatch(deleteStudentStart({ id: id, notificationHandler }));
+  };
   return !loading ? (
     <>
-      <Table dataSource={students} pagination={false}>
+      {contextHolder}
+      <Table dataSource={students} pagination={false} loading={deleteLoading}>
+        <Column title="S.No" dataIndex="sNO" key="sNO" />
         <Column title="Name" dataIndex="name" key="name" />
 
         <Column title="Father Name" dataIndex="fName" key="fName" />
@@ -66,18 +95,54 @@ const StudentList = () => {
             </>
           )}
         />
+
         <Column
           title="Action"
           key="action"
           render={(_, record) => (
             <Space size="middle">
-              <a onClick={() => setModal(true)}>Edit </a>
-              <a>Delete</a>
+              <a
+                onClick={() => {
+                  setStudentData(record);
+                  setModal(true);
+                  setModalValue("view");
+                }}
+              >
+                View
+              </a>
+              <a
+                onClick={() => {
+                  setStudentData(record);
+                  setModal(true);
+                  setModalValue("edit");
+                }}
+              >
+                Edit
+              </a>
+              <Popconfirm
+                title="Delete the task"
+                description="Are you sure to delete this task?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={(e) => {
+                  deleteStudent(record.key);
+                }}
+              >
+                <a>Delete</a>
+              </Popconfirm>
             </Space>
           )}
         />
       </Table>
-      {modal && <Modal modal={modal} setModal={setModal} />}
+      {modal && (
+        <Modal
+          modal={modal}
+          setModal={setModal}
+          studentData={studentData}
+          modalValue={modalValue}
+          setModalValue={setModalValue}
+        />
+      )}
     </>
   ) : (
     <div className="center">

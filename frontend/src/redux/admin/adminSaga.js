@@ -8,6 +8,9 @@ import {
   GET_COURSES_START,
   GET_COURSE_STUDENT_START,
   updateLoadingState,
+  DELETE_STUDENT_START,
+  deleteStudentSuccess,
+  deleteStudentFailure,
 } from "./action";
 import {
   studentRegistrationSuccess,
@@ -114,6 +117,23 @@ function* getCourseStudentStart({ data }) {
 function* getCourseStudent() {
   yield takeLatest(GET_COURSE_STUDENT_START, getCourseStudentStart);
 }
+function* deleteStudentStart({ data: { notificationHandler, id } }) {
+  const response = yield MakeRequest(
+    `/api/student/delete-student/${id}`,
+    "Delete"
+  );
+  const responseJson = yield response.json();
+
+  if (response.status === 200) {
+    yield put(deleteStudentSuccess(responseJson));
+  } else {
+    yield put(deleteStudentFailure(responseJson));
+  }
+  notificationHandler(responseJson.message, response.status, id);
+}
+function* deleteStudent() {
+  yield takeLatest(DELETE_STUDENT_START, deleteStudentStart);
+}
 
 export default function* adminSaga() {
   yield all([
@@ -122,5 +142,6 @@ export default function* adminSaga() {
     call(facultyRegistration),
     call(getCourse),
     call(getCourseStudent),
+    call(deleteStudent),
   ]);
 }
