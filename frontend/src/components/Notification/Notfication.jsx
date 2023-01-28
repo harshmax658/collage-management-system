@@ -1,10 +1,10 @@
 import { message } from "antd";
 
-const Notfication = (resetValues) => {
+const Notfication = (callback) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const key = "updatable";
-  const openMessage = (msg, status, resetValues, id) => {
+  const openMessage = (msg, status, callback, id) => {
     messageApi.open({
       key,
       type: "loading",
@@ -18,12 +18,14 @@ const Notfication = (resetValues) => {
         duration: 2,
       });
 
-      if (status === "success") resetValues(id);
+      if (status === "success") {
+        callback(id);
+      }
     }, 1000);
   };
   const notificationHandler = (message = "jj", status = 200, id) => {
     if (status === 200) {
-      openMessage(message, "success", resetValues, id);
+      openMessage(message, "success", callback, id);
     } else {
       openMessage(message, "error");
     }

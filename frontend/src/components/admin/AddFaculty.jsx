@@ -18,6 +18,7 @@ const AddFaculty = () => {
     mobile: "",
     role: "faculty",
   });
+
   return (
     <>
       <GlobalStyle />

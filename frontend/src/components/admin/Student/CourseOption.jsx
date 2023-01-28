@@ -8,15 +8,28 @@ import {
 } from "../../../redux/admin/action";
 
 import SpinLoader from "../../SpinLoader/SpinLoader";
-const CourseOption = ({ course, setCourse, setLoading }) => {
-  const { courses, loading } = useSelector(({ adminReducer }) => adminReducer);
+const CourseOption = ({
+  course,
+  setCourse,
+  setLoading,
+  update,
+  setSemester,
+}) => {
+  const { courses } = useSelector(({ adminReducer }) => adminReducer);
   const dispatch = useDispatch();
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState({});
 
   const courseGenerator = (data) => {
     data.forEach((element) => {
       setOptions((prev) => {
-        return [...prev, { label: element.name, value: element.name }];
+        return {
+          ...prev,
+          [element.name]: {
+            label: element.name,
+            value: element.name,
+            semester: element.semester,
+          },
+        };
       });
     });
   };
@@ -26,25 +39,30 @@ const CourseOption = ({ course, setCourse, setLoading }) => {
     return () => setOptions([]);
   }, []);
   useEffect(() => {
-    if (options.length === 0) {
+    if (Object.entries(options).length === 0) {
       courseGenerator(courses);
     }
   }, [courses]);
 
   const onChange = ({ target: { value } }) => {
     setLoading(true);
+    setSemester(options[value].semester);
     setCourse(value);
-
-    dispatch(getCourseStudentStart(value));
+    if (update) dispatch(getCourseStudentStart(value));
     setTimeout(() => {
       setLoading(false);
     }, 1000);
   };
+
   return (
     <>
-      {options.length > 0 ? (
+      {Object.entries(options).length > 0 ? (
         <Radio.Group
-          options={options}
+          options={Object.entries(options).map(
+            ([name, { semester, value, label }]) => {
+              return { semester, value, label };
+            }
+          )}
           onChange={onChange}
           value={course}
           optionType="button"

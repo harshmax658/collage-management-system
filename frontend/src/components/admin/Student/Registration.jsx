@@ -3,9 +3,13 @@ import { GlobalStyle } from "../Admin_style";
 
 import SignUp from "../../signUp/SignUp";
 import useLoginSignup from "../../../Custom Hooks/useLoginSignup";
+import CourseOption from "./CourseOption";
+import SpinLoader from "../../SpinLoader/SpinLoader";
 
 const Registration = () => {
-  const [select, setSelect] = useState(false);
+  const [course, setCourse] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [semester, setSemester] = useState(true);
   const [studentDob, setStudentDob] = useState({
     date: 0,
     month: 0,
@@ -26,8 +30,13 @@ const Registration = () => {
   return (
     <>
       <GlobalStyle />
-
-      {/* {select && (
+      <CourseOption
+        course={course}
+        setCourse={setCourse}
+        setLoading={setLoading}
+        setSemester={setSemester}
+      />
+      {!loading ? (
         <SignUp
           course={course}
           studentData={studentData}
@@ -35,8 +44,13 @@ const Registration = () => {
           studentDob={studentDob}
           setStudentDob={setStudentDob}
           resetValues={resetValues}
+          semester={semester}
         />
-      )} */}
+      ) : (
+        <div className="center">
+          <SpinLoader />
+        </div>
+      )}
     </>
   );
 };

@@ -32,8 +32,10 @@ const SignUp = ({
   facultyDataHandler,
   dob,
   setDob,
+  semester,
 }) => {
-  const { contextHolder, notificationHandler } = Notfication();
+  const { contextHolder, notificationHandler } = Notfication(resetValues);
+
   const [section, setSection] = useState("");
   const onRadio = (e) => {
     setSection(e.target.value);
@@ -245,7 +247,7 @@ const SignUp = ({
               onChange={studentDataHandler}
               required
             />
-            {course === "MCA" && (
+            {semester == 4 && (
               <FormInput
                 type="text"
                 name="ug"

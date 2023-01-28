@@ -35,7 +35,9 @@ const StudentList = () => {
   const { studentList, loading } = useSelector(
     ({ adminReducer }) => adminReducer
   );
-  const { contextHolder, notificationHandler } = Notfication(filterStudentList);
+  const { contextHolder, notificationHandler } = Notfication({
+    filterStudentList,
+  });
 
   useEffect(() => {
     let sNo = 0;

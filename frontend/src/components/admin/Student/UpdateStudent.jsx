@@ -21,6 +21,7 @@ const UpdateStudent = () => {
         course={course}
         setCourse={setCourse}
         setLoading={setLoading}
+        update={true}
       />
       <div className="student">{!loading && <StudentList />}</div>
     </>
