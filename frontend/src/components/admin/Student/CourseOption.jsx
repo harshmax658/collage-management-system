@@ -46,7 +46,7 @@ const CourseOption = ({
 
   const onChange = ({ target: { value } }) => {
     setLoading(true);
-    setSemester(options[value].semester);
+    if (setSemester) setSemester(options[value].semester);
     setCourse(value);
     if (update) dispatch(getCourseStudentStart(value));
     setTimeout(() => {
