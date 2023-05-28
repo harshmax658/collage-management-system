@@ -71,6 +71,7 @@ const TopBox = {
   ],
 };
 
+const dateData = new Date();
 const Dashboard = () => {
   const { role } = useSelector(({ loginReducer }) => loginReducer);
   const [date, setDate] = useState(new Date().toLocaleTimeString());
@@ -80,6 +81,7 @@ const Dashboard = () => {
     }, 1000);
     return () => clearInterval(rr);
   }, []);
+
   return (
     <Layout>
       <DashHeader>
@@ -124,7 +126,12 @@ const Dashboard = () => {
             <Box style={{ color: "white" }}>
               <div className="name">
                 <div className="head name red">Date & Time</div>
-                <div className="date count">03-12-2022 / {date}</div>
+                <div className="date count">
+                  {`${dateData.getDate()}-${
+                    dateData.getMonth() + 1
+                  }-${dateData.getFullYear()}`}
+                  / {date}
+                </div>
               </div>
             </Box>
           </div>

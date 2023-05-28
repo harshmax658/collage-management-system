@@ -24,6 +24,9 @@ export const DELETE_STUDENT_START = "DELETE_STUDENT_START";
 export const DELETE_STUDENT_SUCCESS = "DELETE_STUDENT_SUCCESS";
 export const DELETE_STUDENT_FAILURE = "DELETE_STUDENT_FAILURE";
 
+//temp
+export const SET_FACULTY_LIST = "SET_FACULTY_LIST";
+
 export const deleteStudentStart = (data) => {
   return {
     type: DELETE_STUDENT_START,
@@ -136,6 +139,13 @@ export const addNewCourseFailure = (data) => {
 export const updateLoadingState = (data) => {
   return {
     type: UPDATE_LOADING_STATE,
+    data,
+  };
+};
+//tEMP
+export const SetFacultyList = (data) => {
+  return {
+    type: SET_FACULTY_LIST,
     data,
   };
 };

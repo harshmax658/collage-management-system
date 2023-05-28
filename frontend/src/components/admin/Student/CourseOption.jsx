@@ -14,6 +14,7 @@ const CourseOption = ({
   setLoading,
   update,
   setSemester,
+  setSelectCourse,
 }) => {
   const { courses } = useSelector(({ adminReducer }) => adminReducer);
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const CourseOption = ({
     setLoading(true);
     if (setSemester) setSemester(options[value].semester);
     setCourse(value);
+    setSelectCourse(value);
     if (update) dispatch(getCourseStudentStart(value));
     setTimeout(() => {
       setLoading(false);

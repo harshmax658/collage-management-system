@@ -6,6 +6,7 @@ import {
   GET_COURSE_STUDENT_FAILURE,
   GET_COURSE_STUDENT_SUCCESS,
   UPDATE_LOADING_STATE,
+  SET_FACULTY_LIST,
 } from "./action";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   loading: true,
   courses: [],
   studentList: [],
+  facultyList: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -41,6 +43,12 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         studentList: action.data.data,
+      };
+    }
+    case SET_FACULTY_LIST: {
+      return {
+        ...state,
+        facultyList: action.data.data,
       };
     }
     case UPDATE_LOADING_STATE: {

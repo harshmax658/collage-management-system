@@ -6,6 +6,9 @@ const courseSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    subjects: {
+      type: Array,
+    },
     semester: {
       type: String,
       required: true,
@@ -17,6 +20,7 @@ const courseSchema = mongoose.Schema(
       },
     ],
   },
+
   {
     timestamps: true,
   }

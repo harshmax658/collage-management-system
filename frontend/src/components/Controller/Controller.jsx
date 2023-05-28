@@ -6,14 +6,17 @@ import CustomMenu from "./Menu";
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutStudent } from "../../redux/login/action";
 const { Header, Sider, Content } = Layout;
 
 const Controller = () => {
-  const { name } = useSelector(({ loginReducer }) => loginReducer);
+  const { name, role } = useSelector(({ loginReducer }) => loginReducer);
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const distaptch = useDispatch();
 
+  console.log(role);
   return (
     <Layout className="h100Vh">
       <GlobalCss />
@@ -38,8 +41,15 @@ const Controller = () => {
             }
           )}
           {/* User Name */}
-          {name}
-          <button onClick={() => {}}>LogOut</button>
+
+          {role !== "admin" && name}
+          <button
+            onClick={() => {
+              distaptch(logoutStudent());
+            }}
+          >
+            LogOut
+          </button>
         </Header>
         <Content
           className="site-layout-background"

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { TreeSelect } from "antd";
+import { useEffect, useState } from "react";
 
 import {
   Button,
@@ -12,8 +13,39 @@ import {
   Space,
   Divider,
 } from "antd";
+import CourseOption from "./CourseOption";
+import { useSelector } from "react-redux";
+const { SHOW_PARENT } = TreeSelect;
 
 const { Option } = Select;
+const treeDpata = [
+  {
+    title: "Node1",
+    value: "0-0",
+    key: "0-0",
+    children: [
+      {
+        title: "Child Node1",
+        value: "0-0-0",
+        key: "0-0-0",
+      },
+    ],
+  },
+
+  // {
+  //   title:data,
+  //   value: data,
+  //   key: {data},
+  //   children: [
+  //     {
+  //       title: "A",
+  //       value: "A",
+  //       key: "A",
+  //     },
+
+  //   ],
+  // },
+];
 
 const DescriptionItem = ({ title, content }) => (
   <div className="site-description-item-profile-wrapper">
@@ -21,15 +53,87 @@ const DescriptionItem = ({ title, content }) => (
     {content}
   </div>
 );
-const Modal = ({ modal, setModal, studentData, modalValue }) => {
+
+const Modal = ({ modal, setModal, studentData, modalValue, source }) => {
+  const [treeData, setTreeData] = useState([]);
   const [open, setOpen] = useState(modal);
-  const [h, sh] = useState("harsh");
-  const { name, dob, mobile, email, hightSchool, interMidiate } = studentData;
+  // const [selectCourse, setSelectCourse] = useState("");
+  const [course, setCourse] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [value, setValue] = useState(["0-0-0"]);
+  const onChange = (newValue) => {
+    console.log("onChange ", value);
+    setValue(newValue);
+  };
+  const getCourseData = async () => {
+    const getData = await fetch(`/api/course/get-subject-of-course/${course}`);
+    console.log(getData);
+    if (getData.status === 200) {
+      const jsonData = await getData.json();
+
+      const data = jsonData.data.map((data) => {
+        return {
+          title: data,
+          value: data,
+          key: { data },
+          children: [
+            {
+              title: "A",
+              value: "A",
+              key: "A",
+            },
+            {
+              title: "B",
+              value: "B",
+              key: "B",
+            },
+          ],
+        };
+      });
+      setTreeData(data);
+      console.log(treeData);
+      console.log(jsonData);
+    } else {
+      alert("error");
+    }
+  };
+  useEffect(() => {
+    if (course !== "") getCourseData();
+  }, [course]);
+  const tProps = {
+    treeData,
+    value,
+    onChange,
+    treeCheckable: true,
+    showCheckedStrategy: SHOW_PARENT,
+    placeholder: "Please select",
+    style: {
+      width: "100%",
+    },
+  };
+  // const {courses}=useSelector(({adminReducer})=>adminReducer)
+
+  const {
+    name,
+    dob,
+    mobile,
+    email,
+    hightSchool,
+    interMidiate,
+    fatherName,
+    motherName,
+    section,
+    ug,
+    year,
+    date,
+    month,
+  } = studentData;
   console.log(studentData);
   const onClose = () => {
     setOpen(false);
     setModal(false);
   };
+
   return (
     <>
       <Drawer
@@ -170,7 +274,7 @@ const Modal = ({ modal, setModal, studentData, modalValue }) => {
                     >
                       <>
                         <Input
-                          value={h}
+                          value={name}
                           type="text"
                           name="name"
                           placeholder="Basic usage"
@@ -179,10 +283,36 @@ const Modal = ({ modal, setModal, studentData, modalValue }) => {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item name="name" label="Url">
+                    <Form.Item name="name" label="Email">
                       <>
                         <Input
-                          value={h}
+                          value={email}
+                          type="email"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item name="name" label="Father Name">
+                      <>
+                        <Input
+                          value={fatherName}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item name="name" label="Mother Name">
+                      <>
+                        <Input
+                          value={motherName}
                           type="text"
                           name="name"
                           placeholder="Basic usage"
@@ -193,56 +323,15 @@ const Modal = ({ modal, setModal, studentData, modalValue }) => {
                 </Row>
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item
-                      name="owner"
-                      label="Owner"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please select an owner",
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Please select an owner">
-                        <Option value="xiao">Xiaoxiao Fu</Option>
-                        <Option value="mao">Maomao Zhou</Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item
-                      name="type"
-                      label="Type"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please choose the type",
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Please choose the type">
-                        <Option value="private">Private</Option>
-                        <Option value="public">Public</Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item
-                      name="approver"
-                      label="Approver"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please choose the approver",
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Please choose the approver">
-                        <Option value="jack">Jack Ma</Option>
-                        <Option value="tom">Tom Liu</Option>
-                      </Select>
+                    <Form.Item name="name" label="Mobile">
+                      <>
+                        <Input
+                          value={mobile}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -256,33 +345,105 @@ const Modal = ({ modal, setModal, studentData, modalValue }) => {
                         },
                       ]}
                     >
-                      <DatePicker.RangePicker
-                        style={{
-                          width: "100%",
-                        }}
-                        getPopupContainer={(trigger) => trigger.parentElement}
-                      />
+                      <Space direction="vertical">
+                        <DatePicker
+                          placeholder="DOB"
+                          // value={}
+                          onChange={() => {}}
+                        />
+                      </Space>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={16}>
-                  <Col span={24}>
-                    <Form.Item
-                      name="description"
-                      label="Description"
-                      rules={[
-                        {
-                          required: true,
-                          message: "please enter url description",
-                        },
-                      ]}
-                    >
-                      <Input.TextArea
-                        rows={4}
-                        placeholder="please enter url description"
-                      />
+                  <Col span={12}>
+                    <Form.Item name="name" label="High School">
+                      <>
+                        <Input
+                          value={hightSchool}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
                     </Form.Item>
                   </Col>
+                  <Col span={12}>
+                    <Form.Item name="name" label="Intermediate ">
+                      <>
+                        <Input
+                          value={interMidiate}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <Form.Item name="name" label="Section">
+                      <>
+                        <Input
+                          value={section}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
+                    </Form.Item>
+                  </Col>
+                  {ug && (
+                    <Col span={12}>
+                      <Form.Item name="name" label="UG">
+                        <>
+                          <Input
+                            value={ug}
+                            type="text"
+                            name="name"
+                            placeholder="Basic usage"
+                          />
+                        </>
+                      </Form.Item>
+                    </Col>
+                  )}
+                </Row>
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <CourseOption
+                      setSelectCourse={setCourse}
+                      course={course}
+                      setCourse={setCourse}
+                      setLoading={setLoading}
+                      update={true}
+                    />
+                    <Form.Item name="name" label="Update Course">
+                      <TreeSelect {...tProps} />;
+                      <>
+                        <Input
+                          value={section}
+                          type="text"
+                          name="name"
+                          placeholder="Basic usage"
+                        />
+                      </>
+                    </Form.Item>
+                  </Col>
+                  {ug && (
+                    <Col span={12}>
+                      <Form.Item name="name" label="UG">
+                        <>
+                          <Input
+                            value={ug}
+                            type="text"
+                            name="name"
+                            placeholder="Basic usage"
+                          />
+                        </>
+                      </Form.Item>
+                    </Col>
+                  )}
                 </Row>
               </Form>
             </>

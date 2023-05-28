@@ -100,13 +100,19 @@ const CustomMenu = () => {
         key: "attendance",
         icon: <FaUserGraduate />,
         label: "Update Faculty",
-        onClick: () => navigate(`add-faculty`),
+        onClick: () => navigate(`update-faculty`),
       },
       {
         key: "course",
         icon: <FaUserGraduate />,
         label: "Add Course",
         onClick: () => navigate(`add-course`),
+      },
+      {
+        key: "course",
+        icon: <FaUserGraduate />,
+        label: "update Course",
+        onClick: () => navigate(`update-course`),
       },
     ];
   };

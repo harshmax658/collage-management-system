@@ -17,6 +17,9 @@ export const Nav = styled.nav`
     ul {
       display: flex;
       list-style: none;
+      li {
+        cursor: pointer;
+      }
     }
   }
 `;

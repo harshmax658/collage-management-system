@@ -1,7 +1,8 @@
 import {
-  STUDENT_LOGIN_START,
   STUDENT_LOGIN_SUCCESS,
   STUDENT_LOGIN_FAILURE,
+  LOGOUT,
+  SETROLE,
 } from "./action";
 const initialUserState = {
   role: "",
@@ -18,13 +19,19 @@ const userReducer = (state = initialUserState, action) => {
       return {
         ...state,
         logged: true,
-        role: "faculty",
+        role: data.role,
         data: data,
         name: data.name,
       };
     }
     case STUDENT_LOGIN_FAILURE: {
       return { ...state, error: action.data };
+    }
+    case LOGOUT: {
+      return { ...state, logged: false, role: null };
+    }
+    case SETROLE: {
+      return { ...state, role: "admin" };
     }
     default:
       return { ...state };

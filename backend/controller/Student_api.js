@@ -1,3 +1,4 @@
+const Faculty = require("../Models/Faculty");
 const Student = require("../Models/Student");
 
 const studentLogin = async (request, response) => {
@@ -17,10 +18,30 @@ const studentLogin = async (request, response) => {
           message: "user found !!",
           data: student,
         });
+      } else {
+        return response.status(401).json({
+          message: "wrong password",
+        });
       }
-      return response.status(401).json({
-        message: "wrong password",
-      });
+    }
+    const faculty = await Faculty.findOne({
+      $or: [{ email: emailOrMobile }, { mobile: emailOrMobile }],
+    });
+    if (faculty) {
+      // console.log(student);
+      console.log(password);
+      console.log(faculty.password);
+      if (password === faculty.password) {
+        console.log(password === faculty["password"]);
+        return response.status(200).json({
+          message: "user found !!",
+          data: faculty,
+        });
+      } else {
+        return response.status(401).json({
+          message: "wrong password",
+        });
+      }
     }
     return response.status(404).json({
       message: "user not found ",
@@ -35,7 +56,7 @@ const studentLogin = async (request, response) => {
 const getStudent = async (request, response) => {
   try {
     console.log(request.params.course);
-    const student = await Student.find({
+    let student = await Student.find({
       course: request.params.course,
     });
     console.log(student);

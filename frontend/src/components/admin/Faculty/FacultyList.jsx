@@ -7,7 +7,7 @@ import {
   deleteStudentStart,
 } from "../../../redux/admin/action";
 import SpinLoader from "../../SpinLoader/SpinLoader";
-import Modal from "./Modal";
+import Modal from "../Student/Modal";
 import Notfication from "../../Notification/Notfication";
 
 const { Column } = Table;
@@ -32,7 +32,7 @@ const StudentList = () => {
     setDeleteLoading(false);
   };
 
-  const { studentList, loading } = useSelector(
+  const { facultyList, loading } = useSelector(
     ({ adminReducer }) => adminReducer
   );
   const { contextHolder, notificationHandler } = Notfication({
@@ -41,7 +41,7 @@ const StudentList = () => {
 
   useEffect(() => {
     let sNo = 0;
-    studentList.forEach((element) => {
+    facultyList.forEach((element) => {
       const { _id, name, date, month, year, fatherName } = element;
       setStudents((prev) => {
         return [
@@ -52,13 +52,13 @@ const StudentList = () => {
             name: name,
             dob: `${date}/${month}/${year}`,
             fName: fatherName,
-            tags: ["student"],
+            tags: ["Faculty"],
             ...element,
           },
         ];
       });
     });
-    if (studentList) {
+    if (facultyList) {
       setTimeout(() => {
         dispatch(updateLoadingState(false));
       }, 1500);
@@ -67,7 +67,7 @@ const StudentList = () => {
       setStudents([]);
       dispatch(updateLoadingState(true));
     };
-  }, [studentList]);
+  }, [facultyList]);
 
   const deleteStudent = (id) => {
     setDeleteLoading(!deleteLoading);
@@ -143,6 +143,7 @@ const StudentList = () => {
           studentData={studentData}
           modalValue={modalValue}
           setModalValue={setModalValue}
+          source="faculty"
         />
       )}
     </>

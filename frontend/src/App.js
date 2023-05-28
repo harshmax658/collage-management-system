@@ -13,11 +13,13 @@ import Index from "./components/Index/Index";
 import Registration from "./components/admin/Student/Registration";
 import AddFaculty from "./components/admin/AddFaculty";
 import AddNewCourse from "./components/admin/Course/AddNewCourse";
+import UpdateCourse from "./components/admin/Course/UpdateCourse";
 import UpdateStudent from "./components/admin/Student/UpdateStudent";
+import UpdateFaculty from "./components/admin/Faculty/UpdateFaculty";
 
 const App = () => {
   const { role, logged } = useSelector(({ loginReducer }) => loginReducer);
-
+  console.log(role);
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -48,7 +50,9 @@ const App = () => {
           <Route index path="register-student" element={<Registration />} />
           <Route index path="update-student" element={<UpdateStudent />} />
           <Route path="add-faculty" element={<AddFaculty />} />
+          <Route path="update-faculty" element={<UpdateFaculty />} />
           <Route path="add-course" element={<AddNewCourse />} />
+          <Route path="update-course" element={<UpdateCourse />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
